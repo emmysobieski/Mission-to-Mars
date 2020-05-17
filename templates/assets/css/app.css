@@ -1,4 +1,4 @@
-html, body {
+html {
   font-family: 'Lato', sans-serif;
 }
 
@@ -328,5 +328,5 @@ footer a {
 body {
    margin: 5px;
    padding-bottom: 70px;
-   background-color: darkgray;
+   background-color: darkgray !important;
 }

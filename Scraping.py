@@ -6,12 +6,15 @@ import datetime as dt
 
 def scrape_all():
     # Initiate headless driver for deployment
-    browser = Browser("chrome", executable_path="chromedriver", headless=True)
+    # browser = Browser("chrome", executable_path="chromedriver", headless=True)
+    # Set up path and initiate chromebrowser in splinter
+    executable_path = {'executable_path': 'C:/Users/esobieski/Documents/Berkeley/Mission-to-Mars/chromedriver.exe'}
+    browser = Browser('chrome', **executable_path, headless=False)
     # Set News Title and Paragraph Variables
     news_title, news_paragraph = mars_news(browser)
 
     #Set URL and titles
-    hemisphere_urls_list = fetch_mars_hemisphere_url(browser)
+    #hemisphere_urls_list = fetch_mars_hemisphere_url(browser)
     
     # Run all scraping functions and store results in dictionary
     data = {
@@ -20,31 +23,11 @@ def scrape_all():
         "featured_image": featured_image(browser),
         "facts": mars_facts(),
         "last_modified": dt.datetime.now(),
-        
-        "cerberus_title": hemisphere_urls_list[0][0],
-        "cerberus_urls": hemisphere_urls_list[0][1],
-        "cerberus_thumbnail_urls": hemisphere_urls_list[0][2],
-        
-        "schiaparelli_title": hemisphere_urls_list[1][0],
-        "schiaparelli_urls": hemisphere_urls_list[1][1],
-        "schiaparelli_thumbnail_urls": hemisphere_urls_list[1][2],
-        
-        "syrtis_major_title": hemisphere_urls_list[2][0],
-        "syrtis_major_urls": hemisphere_urls_list[2][1],
-        "syrtis_major_thumbnail_urls": hemisphere_urls_list[2][2],
-        
-        "valles_marineris_title": hemisphere_urls_list[3][0],
-        "valles_marineris_urls": hemisphere_urls_list[3][1],
-        "valles_marineris_thumbnail_urls": hemisphere_urls_list[3][2]
-        
+        "hemispheres": fetch_mars_hemisphere_url(browser)  
     }
     
     browser.quit()
     return data
-
-# Set up path and initiate chromebrowser in splinter
-executable_path = {'executable_path': 'C:/Users/esobieski/Documents/Berkeley/Mission-to-Mars/chromedriver.exe'}
-browser = Browser('chrome', **executable_path, headless=False)
 
 # Mars News Function
 def mars_news(browser):
@@ -74,7 +57,7 @@ def mars_news(browser):
     return news_title, news_p
     
     
-# Fetch URLs of Mars hemispheres
+# Fetch URLs of Mars hemispheres and 
 def fetch_mars_hemisphere_url(browser):
  
     url_list = ["https://astrogeology.usgs.gov/search/map/Mars/Viking/cerberus_enhanced",
@@ -84,39 +67,27 @@ def fetch_mars_hemisphere_url(browser):
     
     main_list = []
     
+    # Put list into dictionary
     for url in url_list:
-      new_list = []
+      new_list = {}
       
       elems = url.split('/')
-      word_arr = elems[-1].split('_')
-      final_name=""
-      for val in word_arr:
-        if(val == "enhanced"):
-          val = "Hemisphere"
-        final_name += val + " "
+      word_arr = elems[-1].replace('_', ' ')   # Create title for each URL
         
-      new_list.append(final_name)
+      new_list['title'] = word_arr
       
       browser.visit(url)
-      browser.is_element_present_by_text('Original', wait_time=1)
-      more_info_elem = browser.find_link_by_partial_text('Original')
-      more_info_elem.click()
 
       # Parse the resulting html with soup
-      html = browser.html
-      img_soup = BeautifulSoup(html, 'html.parser')
+      img_soup = BeautifulSoup(browser.html, 'html.parser')
 
       #Error Handling for Attribute Error
       try:
          # Find the relative image url
-         new_list.append(img_soup.select_one('a').get("href"))
-         new_list.append(url)
+         new_list['img_url']=img_soup.select_one('ul li a').get('href')
          main_list.append(new_list)
       except AttributeError:
         return None
-
-    # Use the base URL to create an absolute URL
-    #img_url = f'https://www.jpl.nasa.gov{img_url_rel}'
     
     return main_list
 
@@ -173,7 +144,7 @@ def mars_facts():
     return df.to_html()
 
 # End Automated Browser Session ***NOT SURE I NEED THE FOLLOWING BROWSER QUIT HERE
-browser.quit()
+# browser.quit()
 
 if __name__ == "__main__":
     # If running as script, print scraped data

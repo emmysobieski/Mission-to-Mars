@@ -19,12 +19,12 @@
         <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
       </div>
     </div>
-<table>
+  <table>
 <tr>
-      <!-- Section for Featured Image and Facts table -->
+      <!-- Section for Featured Image and Facts -->
     <td> 
       <div class="row" id="mars-featured-image">
-        <div class="col-md-8">
+        <div class="col-md-5">
           <h2>Featured Mars Image</h2>
 
           <!-- if images is False/None/non-existent, then default to error message -->
@@ -38,76 +38,45 @@
     </td>
     
     <!-- 1st row 2nd col-->
-    <td>
+    <td align="left">
         <!--NOT SURE I NEED NEXT TWO LINES-->
-        <div class="col-md-5">
+        <div class="col-md-12">
             <h2>Mars Hemispheres Image Downloads</h2>
             <!-- if images is False/None/non-existent, then default to error message -->
             <!-- High Resolution Image of Cerberus Hemisphere-->
-   
-       <table>
-       <tr>
-            <!-- if images is False/None/non-existent, then default to error message -->
-            <!-- High Resolution Image of Cerberus Hemisphere-->
-            <td>
-            <img
-            src="{{mars.cerberus_thumbnail_urls | default('static/images/error.png', true) }}"
-            class="thumb"
-            />
+            <ol>
+              <li>
             <a
-              href="{{mars.cerberus_urls | default('static/images/error.png', true) }}"
-              class="download">
-              {{ mars.cerberus_title }}
-            </a>
-            </td>
-            <!-- High Resolution Image of Schiaparelli Hemisphere-->
-            <td>
-                <img
-                src="{{mars.schiaparelli_thumbnail_urls | default('static/images/error.png', true) }}"
-                class="thumb"
-                />
-                <a
-                  href="{{mars.schiaparelli_urls | default('static/images/error.png', true) }}"
-                  class="download">
-                  {{ mars.schiaparelli_title }}
-                  </a>
-                </td>
-        </tr>
-    <tr> 
-        <!-- High Resolution Image of Syrtis Major Hemisphere-->
-        <td>
-            <img
-            src="{{mars.syrtis_major_thumbnail_urls | default('static/images/error.png', true) }}"
-            class="thumb"
-            />
-            <a
-              href="{{mars.syrtis_major_urls | default('static/images/error.png', true) }}"
-              class="download">
-              {{ mars.syrtis_major_title }}
-            </a>
-            </td> 
-            <!-- High Resolution Image of Valles Marineris Hemisphere--> 
-            <td>
-                <img
-                src="{{mars.valles_marineris_thumbnail_urls | default('static/images/error.png', true) }}"
-                class="thumb"
-                />
-                <a
-                  href="{{mars.valles_marineris_urls | default('static/images/error.png', true) }}"
-                  class="download">
-                  {{ mars.valles_marineris_title }}
-                </a>
-            </td>
-        
-        </tr>
-        </table> <!-- Nested Table closing line-->
-        
+            href="{{mars.hemispheres[0].img_url | default('static/images/error.png', true) }}"
+            class="download">
+            {{ mars.hemispheres[0].title }}
+          </a>
+        </li>
+        <li>
+          <a
+            href="{{mars.hemispheres[1].img_url | default('static/images/error.png', true) }}"
+            class="download">
+            {{ mars.hemispheres[1].title }}
+          </a>
+        </li>
+        <li>
+          <a
+          href="{{mars.hemispheres[2].img_url | default('static/images/error.png', true) }}"
+          class="download">
+          {{ mars.hemispheres[2].title }}
+        </a>
+      </li>
+      <li>
+        <a
+            href="{{mars.hemispheres[3].img_url | default('static/images/error.png', true) }}"
+            class="download">
+            {{ mars.hemispheres[3].title }}
+          </a>
+        </li>
+        </ol>
         </div>
         </td>
-        
         </tr> <!-- 1st row finishing line-->
-        
-        <!-- 2nd row 1st col-->
     <tr>
       <!-- Add section for Mars News -->
       <td>
@@ -125,23 +94,19 @@
     </td>
 
    <!--2nd row 2nd column-->     
-    <td>
-
-        <div class="col-md-4">
+    <td align="left">
             <!-- Mars Facts -->
           <div class="row" id="mars-facts">
-            <div class="col-md-12">
+            <div class="col-md-7">
               <h4>Mars Facts</h4>
               {{ mars.facts | safe }}
             </div>
           </div>
-        </div>
+        <!-- </div> -->
 
      </td>
 
    </tr> <!-- 2nd row finishing line-->
-  </table>
+</table>
   </body>
 </html>
-
-https://astrogeology.usgs.gov/search/results?q=hemisphere+enhanced&k1=target&v1=Mars

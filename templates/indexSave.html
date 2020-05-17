@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta http-equiv="X-UA-Compatible" content="ie=edge" />
+    <title>Mission to Mars</title>
+    <link
+      rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <!-- Add Jumbotron to Header -->
+      <div class="jumbotron text-center">
+        <h1>Mission to Mars</h1>
+        <!-- Add a button to activate scraping script -->
+        <p><a class="btn btn-primary btn-lg" href="/scrape" role="button">Scrape New Data</a></p>
+      </div>
+<!--ADDED THIS CSS CODE-->
+    </div>
+<tr>
+      <!-- Section for Featured Image and Facts -->
+    <td> 
+      <div class="row" id="mars-featured-image">
+        <div class="col-md-5">
+          <h2>Featured Mars Image</h2>
+
+          <!-- if images is False/None/non-existent, then default to error message -->
+          <img
+            src="{{mars.featured_image | default('static/images/error.png', true) }}"
+            class="img-responsive"
+            alt="Responsive image"
+          />
+        </div>
+      </div>
+    </td>
+    
+    <!-- 1st row 2nd col-->
+    <td>
+        <!--NOT SURE I NEED NEXT TWO LINES-->
+        <div class="col-md-7">
+            <h2>Mars Hemispheres Image Downloads</h2>
+            <!-- if images is False/None/non-existent, then default to error message -->
+            <!-- High Resolution Image of Cerberus Hemisphere-->
+   
+       <table>
+       <tr>
+            <!-- High Resolution Image of Cerberus Hemisphere-->
+            <!--TRY THIS CODE-->
+            <!-- {% for item in navigation %}
+            <li><a href="{{ item.href }}">{{ item.caption }}</a></li>
+            {% endfor %} -->
+            <td>
+            <img
+            src="{{mars.hemispheres[0].img_url | default('static/images/error.png', true) }}"
+            class="thumb"
+            />
+            <a
+              href="{{mars.hemispheres[0].img_url | default('static/images/error.png', true) }}"
+              class="download">
+              {{ mars.hemispheres[0].title }}
+            </a>
+            </td>
+            <!-- High Resolution Image of Schiaparelli Hemisphere-->
+            <td>
+                <img
+                src="{{mars.hemispheres[1].img_url | default('static/images/error.png', true) }}"
+                class="thumb"
+                />
+                <a
+                  href="{{mars.hemispheres[1].img_url | default('static/images/error.png', true) }}"
+                  class="download">
+                  {{ mars.schiaparelli_title }}
+                  </a>
+                </td>
+        </tr>
+    <tr> 
+        <!-- High Resolution Image of Syrtis Major Hemisphere-->
+        <td>
+            <img
+            src="{{mars.hemispheres[2].img_url | default('static/images/error.png', true) }}"
+            class="thumb"
+            />
+            <a
+              href="{{mars.hemispheres[2].img_url | default('static/images/error.png', true) }}"
+              class="download">
+              {{ mars.syrtis_major_title }}
+            </a>
+            </td> 
+            <!-- High Resolution Image of Valles Marineris Hemisphere--> 
+            <td>
+                <img
+                src="{{mars.hemispheres[3].img_url | default('static/images/error.png', true) }}"
+                class="thumb"
+                />
+                <a
+                  href="{{mars.hemispheres[3].img_url | default('static/images/error.png', true) }}"
+                  class="download">
+                  {{ mars.valles_marineris_title }}
+                </a>
+            </td>
+        
+        </tr>
+        </table> <!-- Nested Table closing line-->
+        
+        </div>
+        </td>
+        </tr> <!-- 1st row finishing line-->
+    <tr>
+      <!-- Add section for Mars News -->
+      <td>
+      <div class="row" id="mars-news">
+        <div class="col-md-5">
+          <div class="media">
+            <div class="media-body">
+              <h2>Latest Mars News</h2>
+              <h4 class="media-heading">{{ mars.news_title }}</h4>
+              <p>{{ mars.news_paragraph }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </td>
+
+   <!--2nd row 2nd column-->     
+    <td>
+            <!-- Mars Facts -->
+          <div class="row" id="mars-facts">
+            <div class="col-md-7">
+              <h4>Mars Facts</h4>
+              {{ mars.facts | safe }}
+            </div>
+          </div>
+        <!-- </div> -->
+
+     </td>
+
+   </tr> <!-- 2nd row finishing line-->
+  </body>
+</html>
